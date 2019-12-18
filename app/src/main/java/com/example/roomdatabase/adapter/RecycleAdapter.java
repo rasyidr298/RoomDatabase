@@ -9,14 +9,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.roomdatabase.OnclickRecycler;
 import com.example.roomdatabase.R;
 import com.example.roomdatabase.room.Mahasiswa;
 
 import java.util.List;
 
-public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.MyViewHolder> {
+import static com.example.roomdatabase.AppApplication.db;
+
+public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.MyViewHolder>implements OnclickRecycler {
     private Context mContext;
     private List<Mahasiswa> myList;
+    OnclickRecycler onclickRecycler = this;
 
     public RecycleAdapter(Context mContext, List<Mahasiswa> albumList) {
         this.mContext = mContext;
@@ -44,6 +48,25 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.MyViewHo
     @Override
     public int getItemCount() {
         return myList.size();
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        Mahasiswa mahasiswa = new Mahasiswa();
+        mahasiswa.setId(myList.get(position).getId());
+        db.userDao().deleteUsers(mahasiswa);
+
+        myList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    @Override
+    public void updateListener(int id, Mahasiswa mahasiswa) {
+        myList.get(id).setAlamat(mahasiswa.getAlamat());
+        myList.get(id).setKejuruan(mahasiswa.getKejuruan());
+        myList.get(id).setNama(mahasiswa.getNama());
+        myList.get(id).setNim(mahasiswa.getNim());
+        notifyDataSetChanged();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

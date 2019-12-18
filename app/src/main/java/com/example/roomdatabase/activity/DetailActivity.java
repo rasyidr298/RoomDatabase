@@ -6,10 +6,12 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import com.example.roomdatabase.HandleTouchHelperCallback;
 import com.example.roomdatabase.R;
 import com.example.roomdatabase.adapter.RecycleAdapter;
 import com.example.roomdatabase.room.AppDatabase;
@@ -47,6 +49,11 @@ public class DetailActivity extends AppCompatActivity {
         fetchDataFromRoom();
         initRecyclerView();
         setAdapter();
+
+        ItemTouchHelper.Callback callback =  new HandleTouchHelperCallback(recycleAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(myRecyclerview);
+
     }
 
     private void fetchDataFromRoom() {
