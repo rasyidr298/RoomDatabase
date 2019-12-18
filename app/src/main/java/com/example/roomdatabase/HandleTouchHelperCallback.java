@@ -1,6 +1,10 @@
 package com.example.roomdatabase;
 
-public class HandleTouchHelperCallback {
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
+
+
+public class HandleTouchHelperCallback extends ItemTouchHelper.Callback{
 
     public OnclickRecycler mOnClick;
 
@@ -29,5 +33,4 @@ public class HandleTouchHelperCallback {
     public boolean isItemViewSwipeEnabled() {
         return true;
     }
-}
 }
